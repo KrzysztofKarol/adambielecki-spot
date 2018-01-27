@@ -10,13 +10,13 @@ app.use(express.static('public'));
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
 
-
+updateData();
 new CronJob('*/5 * * * * *', () => {
   updateData();
 }, null, true, 'Europe/Warsaw');
 
 // let spotURL = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0hN62C8mlLHPINqVLLi8qAv2qonI9biev/message.json?limit=10"
-let spotURL = "https://adambielecki-spot.herokuapp.com/data.json";
+let spotURL = "https://adambielecki-spot.herokuapp.com/dataTest.json";
 let googleElevation = "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCaatjrKpdC3wvr_5AFLmA-ssobawWVAmo";
 
 function addData(newData) {
