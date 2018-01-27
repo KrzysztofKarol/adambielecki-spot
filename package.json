@@ -1,0 +1,23 @@
+{
+  "name": "adambielecki-spot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KrzysztofKarol/adambielecki-spot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KrzysztofKarol/adambielecki-spot/issues"
+  },
+  "homepage": "https://github.com/KrzysztofKarol/adambielecki-spot#readme",
+  "dependencies": {
+    "cron": "^1.3.0"
+  }
+}

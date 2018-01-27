@@ -1,8 +1,13 @@
 let fs = require('fs');
 const https = require("https");
+const CronJob = require('cron').CronJob;
 
+new CronJob('*/5 * * * * *', () => {
+  updateData();
+}, null, true, 'Europe/Warsaw');
 
-let spotURL = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0hN62C8mlLHPINqVLLi8qAv2qonI9biev/message.json?limit=10"
+// let spotURL = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0hN62C8mlLHPINqVLLi8qAv2qonI9biev/message.json?limit=10"
+let spotURL = "https://adambielecki-spot.herokuapp.com/data.json";
 let googleElevation = "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCaatjrKpdC3wvr_5AFLmA-ssobawWVAmo";
 
 function addData(newData) {
@@ -37,7 +42,7 @@ function addData(newData) {
                 }
 
                 data.response.feedMessageResponse.messages.message = [...messages, ...oldMessages]
-                fs.writeFile('data_save.json', JSON.stringify(data), function(err) {
+                fs.writeFile('data_elevation.json', JSON.stringify(data), function(err) {
                     if(err) {
                         return console.log(err);
                     }
