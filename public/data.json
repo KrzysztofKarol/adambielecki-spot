@@ -1104,6 +1104,23 @@
             "batteryState": "GOOD",
             "hidden": 0,
             "altitude": 0
+          },
+          {
+            "@clientUnixTime": "0",
+            "id": 905427649,
+            "messengerId": "0-8253274",
+            "messengerName": "Adam Bielecki",
+            "unixTime": 1516669420,
+            "messageType": "TRACK",
+            "latitude": 45.83392,
+            "longitude": 86.50868,
+            "modelId": "SPOT2",
+            "showCustomMsg": "N",
+            "dateTime": "2018-01-23T01:03:40+0000",
+            "messageDetail": "Test",
+            "batteryState": "GOOD",
+            "hidden": 0,
+            "altitude": 0
           }
         ]
       }
