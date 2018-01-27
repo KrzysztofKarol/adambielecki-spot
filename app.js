@@ -10,7 +10,7 @@ app.use(express.static('public'));
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
 
-let spotURL = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0hN62C8mlLHPINqVLLi8qAv2qonI9biev/message.json?limit=10"
+let spotURL = "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/0hN62C8mlLHPINqVLLi8qAv2qonI9biev/message.json?limit=100";
 const googleElevation = "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCaatjrKpdC3wvr_5AFLmA-ssobawWVAmo";
 
 updateData();
