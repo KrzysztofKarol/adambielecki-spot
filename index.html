@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nanga Parbat</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 30px;
+        }
+
+        #map,
+        #tweets,
+        #footer {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="tweets">
+        <a class="twitter-timeline" href="https://twitter.com/hashtag/NangaParbat" data-widget-id="957260044965433344" data-width="100%"
+            data-height="100%" data-chrome="nofooter noborders">
+            tweety o #NangaParbat</a>
+        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+
+    </div>
+    <script>
+        let map = null;
+        let polyline = null;
+        let infowindow = null;
+        let marks = [];
+
+
+        function update() {
+            // Clear
+            marks.forEach((mark) => mark.setMap(null));
+            marks = [];
+
+            if (polyline) {
+                polyline.setMap(null);
+            }
+            polyline = new google.maps.Polyline({
+                strokeColor: '#CCCC00',
+                strokeOpacity: 1.0,
+                strokeWeight: 3,
+                map: map,
+            });
+
+            fetch("data_elevation.json")
+                .then((response) => response.json())
+                .then((data) => {
+                    let messages = data.response.feedMessageResponse.messages.message;
+                    console.log(messages);
+                    messages.map((message) => {
+                        let mark = new google.maps.Marker({
+                            position: { lat: message.latitude, lng: message.longitude },
+                            dragabble: true,
+                            title: message.dateTime,
+                            map: map,
+                        });
+                        marks.push(mark);
+
+                        let path = polyline.getPath();
+                        path.push(mark.position);
+                        mark.addListener('click', () => {
+                            if (infowindow) {
+                                infowindow.close();
+                            }
+
+                            infowindow = new google.maps.InfoWindow({
+                                content: `Latitude: ${message.latitude}<br>` +
+                                    `Longitude: ${message.longitude}<br>` +
+                                    `Elevation: ${message.altitude}<br>` +
+                                    `Date: ${message.dateTime}<br>`,
+                            });
+                            infowindow.open(map, mark);
+                        });
+                    });
+                    if (messages.length > 0) {
+                        map.setCenter({ lat: messages[0].latitude, lng: messages[0].longitude });
+                    }
+                });
+        }
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 35.237504, lng: 74.589145 },
+                zoom: 18,
+                mapTypeId: 'hybrid',
+            });
+
+            let mountain = new google.maps.Marker({
+                position: { lat: 35.237504, lng: 74.589145 },
+                title: "Nanga Parbat",
+                map: map
+            });
+
+            mountain.addListener('click', () => {
+                if (infowindow) {
+                    infowindow.close();
+                }
+
+                infowindow = new google.maps.InfoWindow({
+                    content: `NangaParbat`,
+                });
+                infowindow.open(map, mark);
+            });
+
+
+            update();
+            setInterval(update, 60000);
+        }
+
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfPiuBwZPrmVv1RDLsKopDw18-GUN2ehU&callback=initMap">
+    </script>
+    <p id="footer" style="padding:10px; margin:0; font-family: Lato, Helvetica, sans-serif;">Data provided from
+        <a href="https://www.findmespot.com/international/">SPOT</a> Contact:
+        <a href="mailto:michal.p.karol@gmail.com">michal.p.karol@gmail.com</a> Fingers crossed!</p>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113165493-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-113165493-1');
+    </script>
+
+</body>
+
+
+</html>
