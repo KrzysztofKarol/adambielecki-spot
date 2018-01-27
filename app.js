@@ -10,4 +10,4 @@ app.get('/api/feed/*', (req, res) => res.jsonp(/*'jQuery1111022457312044476696_1
 )
 ;
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port 3000!'));
