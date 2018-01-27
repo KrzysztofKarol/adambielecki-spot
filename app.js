@@ -2,6 +2,15 @@ let fs = require('fs');
 const https = require("https");
 const CronJob = require('cron').CronJob;
 
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(express.static('public'));
+
+app.listen(port, () => console.log(`App listening on port ${port}!`));
+
+
 new CronJob('*/5 * * * * *', () => {
   updateData();
 }, null, true, 'Europe/Warsaw');
@@ -11,7 +20,7 @@ let spotURL = "https://adambielecki-spot.herokuapp.com/data.json";
 let googleElevation = "https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCaatjrKpdC3wvr_5AFLmA-ssobawWVAmo";
 
 function addData(newData) {
-    fs.readFile('data.json', 'utf8', function(err, contents) {
+    fs.readFile('public/data.json', 'utf8', function(err, contents) {
         let data = JSON.parse(contents);
 
         let messages = newData.response.feedMessageResponse.messages.message
@@ -42,7 +51,7 @@ function addData(newData) {
                 }
 
                 data.response.feedMessageResponse.messages.message = [...messages, ...oldMessages]
-                fs.writeFile('data_elevation.json', JSON.stringify(data), function(err) {
+                fs.writeFile('public/data_elevation.json', JSON.stringify(data), function(err) {
                     if(err) {
                         return console.log(err);
                     }
